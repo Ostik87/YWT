@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LuxWay — Преміум Трансфер</title>
+    <meta name="description" content="LuxWay — трансфери, VIP-кортежі, оренда авто. Комфорт і статус." />
+
+    <!-- ===================== СТИЛІ ===================== -->
+    <style>
+      :root {
+        --bg: #111;
+        --card: #1f1f1f;
+        --muted: #9ea1a6;
+        --accent: #ffd700;
+        --white: #f6f6f6;
+        --radius: 12px;
+        --max-width: 1200px;
+        --gap: 20px;
+        --container-pad: 20px;
+        --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        --font: 'Segoe UI', Roboto, Arial, sans-serif;
+        --btn-radius: 10px;
+        --header-height: 80px; /* для scroll-padding-top */
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--header-height);
+      }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        background: linear-gradient(180deg, #0b0b0b 0%, #121212 100%);
+        color: var(--white);
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: var(--header-height);
+        background: linear-gradient(180deg, #111 0%, #151515 100%);
+        border-bottom: 1px solid rgba(255, 215, 0, 0.06);
+        backdrop-filter: blur(4px);
+      }
+      .nav {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--gap);
+        padding: 12px var(--container-pad);
+        position: relative; /* для позиціонування мобільного меню */
+      }
+
+      /* BURGER */
+      .burger {
+        display: none;
+        font-size: 28px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--white); /* білий бургер */
+        padding: 4px 8px;
+      }
+
+      /* DESKTOP NAV */
+      nav {
+        display: flex;
+        gap: 24px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--white);
+        font-weight: 500;
+        font-size: 16px;
+      }
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        nav {
+          display: none;
+          flex-direction: column;
+          gap: 12px;
+
+          position: absolute;
+          top: 100%;
+          right: var(--container-pad);
+
+          background: #0f0f0f;
+          padding: 16px 20px;
+          width: 200px;
+
+          border-radius: 12px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+          z-index: 10;
+        }
+
+        nav a {
+          color: var(--white);
+        }
+
+        nav.open {
+          display: flex;
+        }
+
+        .burger {
+          display: block;
+        }
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand img {
+        height: 56px;
+        width: 56px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .brand h1 {
+        font-size: 1.05rem;
+        margin: 0;
+        color: var(--accent);
+        letter-spacing: 0.6px;
+      }
+      nav a {
+        color: var(--white);
+        text-decoration: none;
+        margin-left: 14px;
+        font-weight: 600;
+        padding: 8px;
+        border-radius: 8px;
+      }
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--accent);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: var(--btn-radius);
+        padding: 8px 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #111;
+        border: none;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--white);
+      }
+      .wrap {
+        max-width: var(--max-width);
+        margin: 30px auto;
+        padding: 0 var(--container-pad);
+        display: grid;
+        gap: 30px;
+      }
+      .hero {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: 1fr;
+        align-items: center;
+        background-image: url('https://uploads.onecompiler.io/4442uxvgs/444a8tmze/5231145995188505866%20(1).jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: var(--radius);
+        padding: 60px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7));
+        border-radius: inherit;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 980px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .hero h2 {
+        margin: 0;
+        font-size: 2.25rem;
+        color: var(--accent);
+      }
+      .hero p {
+        margin-top: 8px;
+        color: #eaeaea;
+        font-size: 1.08rem;
+      }
+      .section-row {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 24px;
+        align-items: start;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+      .service {
+        background: linear-gradient(180deg, #151515, #111);
+        border-radius: 12px;
+        padding: 18px;
+        border-left: 4px solid rgba(255, 215, 0, 0.06);
+      }
+      .service h3 {
+        color: var(--accent);
+        margin: 0 0 8px 0;
+      }
+      #autopark .autopark-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+      .car-card {
+        background: var(--card);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+      }
+      .car-thumb {
+        height: 170px;
+        background-size: cover;
+        background-position: center;
+        display: block;
+      }
+      .car-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+      .car-body h4 {
+        margin: 0;
+        color: var(--accent);
+      }
+      .car-body p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .car-meta {
+        display: flex;
+        justify-content: space-between;
+        color: #bdbdbd;
+        font-size: 0.85rem;
+      }
+      .car-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+        flex-wrap: wrap;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        background: rgba(255, 215, 0, 0.08);
+        color: var(--accent);
+        font-size: 0.85rem;
+      }
+      .tab-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .tab {
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        cursor: pointer;
+      }
+      .tab.active {
+        background: var(--accent);
+        color: #111;
+        border-color: rgba(255, 215, 0, 0.2);
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.75);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal.open {
+        display: flex;
+      }
+      .modal-dialog {
+        width: 100%;
+        max-width: 980px;
+        background: var(--card);
+        border-radius: 12px;
+        padding: 18px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        max-height: 90vh;
+        overflow: auto;
+      }
+      .modal-close {
+        position: absolute;
+        right: 14px;
+        top: 14px;
+        background: var(--accent);
+        color: #111;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .modal-grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 16px;
+      }
+      .modal-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .modal-gallery img {
+        width: calc(33% - 10px);
+        border-radius: 8px;
+        cursor: pointer;
+        object-fit: cover;
+      }
+      .modal-info {
+        padding: 8px;
+      }
+      #galleryGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      #galleryGrid img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+      .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 150;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .lightbox.open {
+        display: flex;
+      }
+      .lightbox .holder {
+        position: relative;
+        max-width: 92%;
+        max-height: 86%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lightbox img {
+        max-width: 100%;
+        max-height: 86vh;
+        border-radius: 10px;
+      }
+      .lightbox-close {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        background: var(--accent);
+        color: #111;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .lightbox-nav {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 215, 0, 0.95);
+        color: #111;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        z-index: 160;
+        opacity: 0.97;
+      }
+      .lightbox-nav.prev {
+        left: 18px;
+      }
+      .lightbox-nav.next {
+        right: 18px;
+      }
+      .order-form {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .form-input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: transparent;
+        color: var(--white);
+      }
+      .form-input.muted {
+        color: var(--muted);
+      }
+      .form-input.muted option {
+        color: var(--white);
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .contact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .contact-item {
+        background: linear-gradient(180deg, #151515, #0f0f0f);
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 215, 0, 0.05);
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      footer {
+        padding: 26px;
+        text-align: center;
+        color: var(--muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+        margin-top: 20px;
+      }
+      @media (max-width: 900px) {
+        .section-row {
+          grid-template-columns: 1fr;
+        }
+        .modal-grid {
+          grid-template-columns: 1fr;
+        }
+        .modal-gallery img {
+          width: calc(50% - 10px);
+        }
+        header .nav {
+          padding: 12px 14px;
+        }
+        nav {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+      }
+      @media (max-width: 520px) {
+        .hero {
+          padding: 36px;
+        }
+        .hero h2 {
+          font-size: 1.5rem;
+        }
+        .modal-gallery img {
+          width: 100%;
+        }
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .car-thumb {
+          height: 150px;
+        }
+        .lightbox .holder {
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="nav">
+        <div class="brand">
+          <img src="https://uploads.onecompiler.io/4442uxvgs/4442s6px2/photo_2025-11-08_14-27-33.jpg" alt="LuxWay" />
+          <h1>LuxWay</h1>
+        </div>
+
+        <button class="burger" id="burgerBtn" aria-label="Меню">☰</button>
+
+        <nav aria-label="Головна навігація" id="mobileMenu">
+          <a href="#advantages">Послуги</a>
+          <a href="#autopark">Автопарк</a>
+          <a href="#gallery">Галерея</a>
+          <a href="#order">Замовити</a>
+          <a href="#contact">Контакти</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <!-- HERO -->
+      <section class="hero card" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <h2 id="hero-title">LuxWay — твій шлях у стилі Business</h2>
+          <p>Комфорт. Статус. Впевненість у кожному кілометрі. Преміум-трансфери Україна / Європа.</p>
+          <div style="margin-top: 18px">
+            <a class="btn btn-primary" href="#order">Замовити трансфер</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="advantages" class="card">
+        <h3 style="margin-top: 0">🛣️ Наші послуги</h3>
+        <div class="services-grid">
+          <div class="service">
+            <h3>🚖 Доставка</h3>
+            <p>Звідки завгодно — куди завгодно по Україні.</p>
+          </div>
+          <div class="service">
+            <h3>👑 VIP-кортеж</h3>
+            <p>Синхронна подача, професійні водії, конфіденційність.</p>
+          </div>
+          <div class="service">
+            <h3>🛂 Трансфер від кордону</h3>
+            <p>Зустріч, допомога з багажем, доставка до місця.</p>
+          </div>
+          <div class="service">
+            <h3>🎉 Для свят</h3>
+            <p>Весілля, вечірки, подорожі — атмосферні авто.</p>
+          </div>
+          <div class="service">
+            <h3>🌍 За кордон</h3>
+            <p>Європейські маршрути з комфортом і надійністю.</p>
+          </div>
+          <div class="service">
+            <h3>🚗 Оренда</h3>
+            <p>Авто преміум-рівня — керуй сам, або з водієм.</p>
+          </div>
+          <div class="service">
+            <h3>🚘 ВІП таксі LuxWay</h3>
+            <p>
+              Комфорт, стиль і престиж у кожній поїздці. LuxWay — це не просто таксі. Це ваш персональний рівень
+              комфорту, елегантності та надійності.
+            </p>
+          </div>
+          <div class="service">
+            <h3>⏱️ Завжди на зв’язку</h3>
+            <p>Ми прагматичні та відповідаємо у будь-який час, щоб ваш трансфер пройшов без зайвих турбот.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUTOPARK -->
+      <section id="autopark">
+        <div style="display: flex; gap: 20px; align-items: center; justify-content: space-between; margin-bottom: 12px">
+          <h3 style="margin: 0">🚘 Наш автопарк</h3>
+          <p class="muted" style="margin: 0">Натисніть «Докладніше», щоб побачити всі фото та опис.</p>
+        </div>
+        <div class="tab-row">
+          <div class="tab active" data-filter="all">Усі</div>
+          <div class="tab" data-filter="premium">Преміум</div>
+          <div class="tab" data-filter="business">Бізнес</div>
+        </div>
+        <div class="autopark-grid card" id="autoparkGrid"></div>
+      </section>
+
+      <!-- CAR MODAL -->
+      <div id="carModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+          <button class="modal-close" onclick="closeCarModal()">✕</button>
+          <div class="modal-grid">
+            <div id="carModalGallery" class="modal-gallery"></div>
+            <aside class="modal-info">
+              <h4 id="carModalTitle"></h4>
+              <p id="carModalDescription" class="muted"></p>
+              <div style="margin-top: 12px" id="carModalMeta"></div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY -->
+      <section id="gallery" class="card">
+        <h3 style="margin-top: 0">📸 Галерея</h3>
+        <div id="galleryGrid"></div>
+      </section>
+
+      <!-- LIGHTBOX -->
+      <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <button class="lightbox-nav prev" onclick="prevLightbox()">‹</button>
+        <div class="holder"><img id="lightbox-img" src="" alt="" /></div>
+        <button class="lightbox-nav next" onclick="nextLightbox()">›</button>
+      </div>
+
+      <!-- ORDER FORM -->
+      <section id="order" class="card" style="max-width: 760px; margin-left: auto; margin-right: auto">
+        <h3 style="margin-top: 0">📝 Замовити трансфер</h3>
+        <form id="orderForm" class="order-form">
+          <div class="form-row">
+            <input id="orderName" class="form-input" placeholder="Ім'я *" required />
+            <input id="orderPhone" class="form-input" placeholder="+380 ХХХ ХХХ ХХ ХХ *" required />
+          </div>
+          <div style="margin-top: 10px">
+            <input id="orderRoute" class="form-input" placeholder="Звідки — Куди (маршрут)" />
+          </div>
+          <div style="margin-top: 10px">
+            <input
+              id="orderPassengers"
+              class="form-input"
+              type="number"
+              min="1"
+              max="5"
+              placeholder="Кількість пасажирів"
+              required
+            />
+          </div>
+
+          <div style="margin-top: 10px">
+            <select id="orderCarType" class="form-input muted" style="background-color: var(--card)">
+              <option value="" selected>Тип авто</option>
+              <option value="business">Бізнес</option>
+              <option value="premium">Преміум</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 10px">
+            <select id="orderExtras" class="form-input muted" style="background-color: var(--card)">
+              <option value="" selected>Додаткові опції</option>
+              <option value="Дитяче крісло">Дитяче крісло</option>
+              <option value="Тваринка (до 15 кг)">Тваринка (до 15 кг)</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 10px">
+            <input id="orderDateTime" class="form-input" type="datetime-local" placeholder="Дата та час" />
+          </div>
+          <div style="margin-top: 10px">
+            <textarea id="orderComment" placeholder="Коментар (необов'язково)" class="form-input"></textarea>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 12px">
+            <button type="submit" class="btn btn-primary">Відправити</button>
+            <button type="reset" class="btn btn-ghost">Очистити</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- CONTACTS -->
+      <section id="contact" class="card">
+        <h3 style="margin-top: 0">📞 Контакти</h3>
+        <div class="contact-list">
+          <div class="contact-item">
+            <a href="tel:+3806845444940" style="color: #ffd700">📞+380 684 544 49 40 </a>
+            <p>- оператор LuxWay</p>
+          </div>
+          <div class="contact-item">
+            <a href="tel:+3809735080033" style="color: #ffd700">📞+380 973 508 00 33 </a>
+            <p>- нічний оператор LuxWay</p>
+          </div>
+          <div class="contact-item">
+            <a href="https://t.me/LuxWay_Your_Transfer2025" style="color: #ffd700">Telegram</a>
+          </div>
+          <div class="contact-item">
+            <a href="https://www.instagram.com/__luxway_?igsh=OWRqb3B3dG84azVj" style="color: #ffd700">Instagram</a>
+          </div>
+          <div class="contact-item">
+            <a href="https://www.tiktok.com/@__luxway__?_r=1&_t=ZM-91NQXzFTAgF" style="color: #ffd700">Tik-Tok</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>LuxWay © 2025. Всі права захищені.</footer>
+
+    <!-- ===================== JS ===================== -->
+    <script>
+      // ==== CAR DATA ====
+      const cars = [
+        {
+          name: 'Porsche Cayenne hybrid 2020',
+          category: 'premium',
+          seats: 3,
+          desc: 'Гібрид, преміальна музика, підсвідка салону, 4 зонний клімат контроль, підігрів та вентиляція сидінь, вмісткий багажник',
+          images: [
+            'img/Porsche cayenne hybrid/1.jpg',
+            'img/Porsche cayenne hybrid/2.jpg',
+            'img/Porsche cayenne hybrid/3.jpg',
+            'img/Porsche cayenne hybrid/4.jpg'
+          ]
+        },
+        {
+          name: 'Porsche Cayenne S 2017',
+          category: 'premium',
+          seats: 3,
+          desc: 'Преміальна музика, на вихлопі з прострілами, 4 зонний клімат контроль, підсвітка салону, підігрів та вентиляція сидінь, вмісткий багажник, панорамний дах',
+          images: [
+            'img/Porsche cayenne S/1.3.jpg',
+            'img/Porsche cayenne S/2.jpg',
+            'img/Porsche cayenne S/3.jpg',
+            'img/Porsche cayenne S/4.jpg',
+            'img/Porsche cayenne S/5.jpg'
+          ]
+        },
+        {
+          name: 'Mercedes-Benz GLE 2021',
+          category: 'premium',
+          seats: 3,
+          desc: 'Преміальна музика, підсвітка салону, трьохзонний клімат контроль, вмісткий багажник',
+          images: [
+            'img/Mersedes-Benz GLE/1.1.jpg',
+            'img/Mersedes-Benz GLE/2.jpg',
+            'img/Mersedes-Benz GLE/3.jpg',
+            'img/Mersedes-Benz GLE/4.jpg',
+            'img/Mersedes-Benz GLE/5.jpg'
+          ],
+        },
+        {
+          name: 'Mercedes-Benz ML 350 2013',
+          category: 'business',
+          seats: 3,
+          desc: 'Преміальна музика, підсвітка салону, трьохзонний клімат контроль, вмісткий багажник',
+          images: [
+            'img/Mercedes-Benz ML 350/1.1.jpg',
+            'img/Mercedes-Benz ML 350/2.jpg',
+            'img/Mercedes-Benz ML 350/3.jpg',
+            'img/Mercedes-Benz ML 350/4.jpg'
+          ]
+        },
+        {
+          name: 'Audi Q7 S-line 2017',
+          category: 'premium',
+          seats: 5,
+          desc: 'Панорамний дах, люк, підсвітка салону, трьохзонний клімат контроль, 3 ряд сидінь, преміальна музика',
+          images: [
+            'img/Audi Q7 S-line/1.jpg',
+            'img/Audi Q7 S-line/2.jpg',
+            'img/Audi Q7 S-line/3.jpg',
+            'img/Audi Q7 S-line/4.jpg',
+            'img/Audi Q7 S-line/5.jpg'
+          ]
+        },
+        {
+          name: 'Tesla Model S 2015',
+          category: 'business',
+          seats: 3,
+          desc: 'Панорама, підігрів сидінь, 3 зонний клімат контроль, підсвітка салону, вмісткий багажник',
+          images: [
+            'img/Tesla model S/1.jpg',
+            'img/Tesla model S/2.jpg',
+            'img/Tesla model S/3.jpg',
+            'img/Tesla model S/5.jpg'
+          ]
+        },
+        {
+          name: 'Hyundai Kona 2019',
+          category: 'business',
+          seats: 3,
+          desc: 'Докладніше дізнайтеся у оператора LuxWay',
+          images: [
+            'img/Hyundai Kona 2019/1.1.jpg',
+            'img/Hyundai Kona 2019/2.jpg',
+            'img/Hyundai Kona 2019/3.jpg',
+            'img/Hyundai Kona 2019/4.1.jpg'
+          ]
+        },
+        {
+          name: 'Jeep Grand Cherokee 2023',
+          category: 'business',
+          seats: 5,
+          desc: 'Підігрів усіх сидінь, три додаткових екрана для комфортy пасажирів та підсвітка салону',
+          images: [
+            'img/Jeep Grand Cherokee 2023/1.1.jpg',
+            'img/Jeep Grand Cherokee 2023/2.jpg',
+            'img/Jeep Grand Cherokee 2023/3.jpg',
+            'img/Jeep Grand Cherokee 2023/4.jpg',
+            'img/Jeep Grand Cherokee 2023/5.jpg'
+          ]
+        }
+      ];
+
+      const autoparkGrid = document.getElementById('autoparkGrid');
+      function renderCars(filter = 'all') {
+        autoparkGrid.innerHTML = '';
+        cars
+          .map((car, i) => ({ car, i }))
+          .filter((obj) => (filter === 'all' ? true : obj.car.category === filter))
+          .forEach((obj) => {
+            const c = obj.car;
+            const div = document.createElement('div');
+            div.className = 'car-card';
+            div.innerHTML = `<div class="car-thumb" style="background-image:url('${c.images[0]}')"></div>
+          <div class="car-body">
+            <h4>${c.name}</h4>
+            <p>${c.desc}</p>
+            <div class="car-meta"><span>Місць: ${c.seats}</span></div>
+            <div class="car-actions"><button class="btn btn-primary" onclick="openCarModal(${obj.i})">Докладніше</button></div>
+          </div>`;
+            autoparkGrid.appendChild(div);
+          });
+      }
+      renderCars();
+      document.querySelectorAll('.tab').forEach((t) => {
+        t.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach((tt) => tt.classList.remove('active'));
+          t.classList.add('active');
+          renderCars(t.dataset.filter);
+        });
+      });
+
+      function openCarModal(index) {
+        const car = cars[index];
+        if (!car) return;
+        const gallery = document.getElementById('carModalGallery');
+        gallery.innerHTML = '';
+        car.images.forEach((imgSrc, idx) => {
+          const im = document.createElement('img');
+          im.src = imgSrc;
+          im.alt = `${car.name} ${idx + 1}`;
+          im.addEventListener('click', () => openLightbox(car.images, idx));
+          gallery.appendChild(im);
+        });
+        document.getElementById('carModalTitle').innerText = car.name;
+        document.getElementById('carModalDescription').innerText = car.desc;
+        document.getElementById('carModalMeta').innerText = `Місць: ${car.seats}`;
+        document.getElementById('carModal').classList.add('open');
+      }
+      function closeCarModal() {
+        document.getElementById('carModal').classList.remove('open');
+      }
+
+      let lightboxImages = [],
+        currentLightboxIndex = 0;
+      function openLightbox(images, index = 0) {
+        lightboxImages = images.slice();
+        currentLightboxIndex = index || 0;
+        document.getElementById('lightbox-img').src = lightboxImages[currentLightboxIndex];
+        document.getElementById('lightbox').classList.add('open');
+      }
+      function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+      function prevLightbox() {
+        if (!lightboxImages.length) return;
+        currentLightboxIndex = (currentLightboxIndex - 1 + lightboxImages.length) % lightboxImages.length;
+        document.getElementById('lightbox-img').src = lightboxImages[currentLightboxIndex];
+      }
+      function nextLightbox() {
+        if (!lightboxImages.length) return;
+        currentLightboxIndex = (currentLightboxIndex + 1) % lightboxImages.length;
+        document.getElementById('lightbox-img').src = lightboxImages[currentLightboxIndex];
+      }
+
+      const galleryGrid = document.getElementById('galleryGrid');
+      cars.forEach((car) => {
+        if (car.images && car.images[0]) {
+          const img = document.createElement('img');
+          img.src = car.images[0];
+          img.alt = car.name;
+          img.addEventListener('click', () => openLightbox([car.images[0]], 0));
+          galleryGrid.appendChild(img);
+        }
+      });
+
+      document.getElementById('orderForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('orderName').value.trim();
+        const phone = document.getElementById('orderPhone').value.trim();
+        const route = document.getElementById('orderRoute').value.trim();
+        const passengers = document.getElementById('orderPassengers').value;
+        const carType = document.getElementById('orderCarType').value || 'Не вказано';
+        const extras = [...document.getElementById('orderExtras').selectedOptions].map((o) => o.value);
+        const date = document.getElementById('orderDateTime').value || 'Не вказано';
+        const comment = document.getElementById('orderComment').value.trim() || '—';
+        const message = `Нове замовлення LuxWay:
+Ім'я: ${name}
+Телефон: ${phone}
+Маршрут: ${route || 'Не вказано'}
+Пасажири: ${passengers}
+Дата/Час: ${date}
+Тип авто: ${carType}
+Додаткові опції: ${extras.length ? extras.join(', ') : 'Немає'}
+Коментар: ${comment}`;
+
+        const token = '8544965897:AAEmR6NbEoBZ6llkra3XARrySsbtHXBJstk';
+        const chat_id = '-1003392265482';
+        const thread_id = 98;
+        const params = new URLSearchParams({ chat_id: chat_id, text: message });
+        if (thread_id) params.append('message_thread_id', thread_id);
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage?` + params.toString())
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.ok) {
+              alert('Замовлення надіслано!');
+              e.target.reset();
+            } else {
+              console.error('Telegram error:', data);
+              alert('Помилка відправки — перевір лог в консолі.');
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert('Помилка відправки (мережа).');
+          });
+      });
+
+      const burger = document.getElementById('burgerBtn');
+      const menu = document.getElementById('mobileMenu');
+
+      burger.addEventListener('click', () => {
+        menu.classList.toggle('open');
+      });
+    </script>
+  </body>
+</html>
